@@ -114,6 +114,9 @@ class CAdvancedSettings
     float m_limiterHold;
     float m_limiterRelease;
 
+    bool  m_omxHWAudioDecode;
+    bool  m_omxDecodeStartWithValidFrame;
+
     float m_videoSubsDelayRange;
     float m_videoAudioDelayRange;
     int m_videoSmallStepBackSeconds;
@@ -176,14 +179,15 @@ class CAdvancedSettings
     CStdString m_lcdHostName;
 
     int m_songInfoDuration;
+    int m_busyDialogDelay;
     int m_logLevel;
     int m_logLevelHint;
     CStdString m_cddbAddress;
-
+    
     //airtunes + airplay
     bool m_logEnableAirtunes;
     int m_airTunesPort;
-    int m_airPlayPort;
+    int m_airPlayPort;    
 
     bool m_handleMounting;
 

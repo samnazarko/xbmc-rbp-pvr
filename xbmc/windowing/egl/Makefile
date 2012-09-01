@@ -1,10 +1,10 @@
-INCLUDES=-I.
+INCLUDES=-I. -I../.. -I../../linux
 
 SRCS = WinSystemGLES.cpp
 SRCS+= WinEGLPlatformGeneric.cpp
-SRCS+= WinEGLPlatformAndroid.cpp
-     
-LIB = windowing_egl.a
+SRCS+= WinEGLPlatformRaspberryPI.cpp
+
+LIB=windowing_egl.a
 
 include ../../../Makefile.include
 -include $(patsubst %.cpp,%.P,$(patsubst %.c,%.P,$(SRCS)))

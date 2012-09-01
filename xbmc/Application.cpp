@@ -326,6 +326,8 @@
 #include "utils/StringUtils.h"
 #include "DatabaseManager.h"
 
+#include "windowing/WinSystem.h"
+
 #ifdef _LINUX
 #include "XHandle.h"
 #endif

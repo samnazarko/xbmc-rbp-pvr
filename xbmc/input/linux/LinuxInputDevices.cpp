@@ -771,6 +771,7 @@ XBMC_Event CLinuxInputDevice::ReadEvent()
   return devt;
 }
 
+/*adi
 void CLinuxInputDevice::SetupKeyboardAutoRepeat(int fd)
 {
   bool enable = true;
@@ -817,6 +818,7 @@ void CLinuxInputDevice::SetupKeyboardAutoRepeat(int fd)
     CLog::Log(LOGINFO, "CLinuxInputDevice: auto key repeat disabled on device '%s'\n", m_deviceName);
   }
 }
+*/
 
 /*
  * Fill device information.
@@ -1059,8 +1061,10 @@ bool CLinuxInputDevice::Open()
   /* fill device info structure */
   GetInfo(fd);
 
+/*adi
   if (m_deviceType & LI_DEVICE_KEYBOARD)
     SetupKeyboardAutoRepeat(fd);
+*/
 
   m_fd = fd;
   m_vt_fd = -1;

@@ -45,7 +45,6 @@ public:
   virtual bool  IsExtSupported(const char* extension);
 
   virtual void  ShowOSMouse(bool show);
-  virtual bool  HasCursor();
 
   virtual void  NotifyAppActiveChange(bool bActivated);
 
@@ -53,9 +52,10 @@ public:
   virtual bool  Restore() ;
   virtual bool  Hide();
   virtual bool  Show(bool raise = true);
-
-  EGLDisplay    GetEGLDisplay();
-  EGLContext    GetEGLContext();
+  virtual EGLContext            GetEGLContext() const;
+  virtual EGLDisplay            GetEGLSurface() const;
+  virtual EGLDisplay            GetEGLDisplay() const;
+  virtual bool                  Support3D(int width, int height, uint32_t mode)     const;
 
 protected:
   virtual bool  PresentRenderImpl(const CDirtyRegionList &dirty);

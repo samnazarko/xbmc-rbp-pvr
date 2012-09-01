@@ -27,6 +27,9 @@
 #include <EGL/eglext.h>
 #endif
 
+#include "guilib/gui3d.h"
+#include "guilib/Resolution.h"
+
 class CWinEGLPlatformGeneric
 {
 public:
@@ -35,27 +38,26 @@ public:
 
   virtual EGLNativeWindowType InitWindowSystem(EGLNativeDisplayType nativeDisplay, int width, int height, int bpp);
   virtual void DestroyWindowSystem(EGLNativeWindowType native_window);
-  virtual bool SetDisplayResolution(int width, int height, float refresh, bool interlace);
+  virtual bool SetDisplayResolution(RESOLUTION_INFO& res);
   virtual bool ClampToGUIDisplayLimits(int &width, int &height);
-  virtual bool ProbeDisplayResolutions(std::vector<CStdString> &resolutions);
-  
-  virtual bool InitializeDisplay();
-  virtual bool UninitializeDisplay();
-  virtual bool CreateWindow();
+  virtual bool ProbeDisplayResolutions(std::vector<RESOLUTION_INFO> &resolutions);
+  virtual bool CreateSurface();
   virtual bool DestroyWindow();
-  virtual bool BindSurface();
-  virtual bool ReleaseSurface();
-  
   virtual bool ShowWindow(bool show);
+  virtual bool ReleaseSurface();
   virtual void SwapBuffers();
   virtual bool SetVSync(bool enable);
   virtual bool IsExtSupported(const char* extension);
-
-  virtual EGLDisplay GetEGLDisplay();
-  virtual EGLContext GetEGLContext();
+  virtual EGLDisplay            GetDisplay();
+  virtual EGLSurface            GetSurface();
+  virtual EGLContext            GetContext();
+  virtual bool                  FixedDesktop() { return true; }
+  virtual RESOLUTION_INFO       GetDesktopRes() { return m_desktopRes; }
+  virtual bool                  Support3D() { return false; }
 
 protected:
-  virtual EGLNativeWindowType getNativeWindow();
+  virtual bool setConfiguration();
+  virtual void createSurfaceCallback() { }
 
   EGLNativeWindowType   m_nativeWindow;
   EGLNativeDisplayType  m_nativeDisplay;
@@ -66,4 +68,5 @@ protected:
   CStdString            m_eglext;
   int                   m_width;
   int                   m_height;
+  RESOLUTION_INFO       m_desktopRes;
 };

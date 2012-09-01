@@ -1,6 +1,5 @@
-#pragma once
 /*
- *      Copyright (C) 2012 Team XBMC
+ *      Copyright (C) 2005-2008 Team XBMC
  *      http://www.xbmc.org
  *
  *  This Program is free software; you can redistribute it and/or modify
@@ -20,21 +19,31 @@
  *
  */
 
-#if defined(TARGET_ANDROID)
+#ifndef _OMX_THREAD_H_
+#define _OMX_THREAD_H_
 
-#include "WinEGLPlatformGeneric.h"
+#include <pthread.h>
 
-class CWinEGLPlatformAndroid : public CWinEGLPlatformGeneric
+class OMXThread 
 {
-public:
-  virtual EGLNativeWindowType InitWindowSystem(EGLNativeDisplayType nativeDisplay, int width, int height, int bpp);
-  virtual void DestroyWindowSystem(EGLNativeWindowType native_window);
-  virtual bool ClampToGUIDisplayLimits(int &width, int &height);
-  
-  virtual bool CreateWindow();
-  
 protected:
-  virtual EGLNativeWindowType getNativeWindow();
+  pthread_attr_t      m_tattr;
+  struct sched_param  m_sched_param;
+  pthread_mutex_t     m_lock;
+  pthread_t           m_thread;
+  volatile bool       m_running;
+  volatile bool       m_bStop;
+private:
+  static void *Run(void *arg);
+public:
+  OMXThread();
+  ~OMXThread();
+  bool Create();
+  virtual void Process() = 0;
+  bool Running();
+  pthread_t ThreadHandle();
+  bool StopThread();
+  void Lock();
+  void UnLock();
 };
-
 #endif

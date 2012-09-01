@@ -119,7 +119,7 @@ else
 ifeq (@USE_ANDROID@,1)
 DIRECTORY_ARCHIVES += xbmc/input/linux/input_linux.a
 DIRECTORY_ARCHIVES += xbmc/network/linux/network_linux.a
-DIRECTORY_ARCHIVES += xbmc/powermanagement/android/powermanagement_android.a
+DIRECTORY_ARCHIVES += xbmc/poFwermanagement/android/powermanagement_android.a
 DIRECTORY_ARCHIVES += xbmc/storage/android/storage_android.a
 DIRECTORY_ARCHIVES += xbmc/windowing/X11/windowing_X11.a
 else
@@ -145,6 +145,11 @@ ifeq (@USE_ANDROID@,1)
 DIRECTORY_ARCHIVES += xbmc/android/loader/AndroidDyload.a
 DIRECTORY_ARCHIVES += xbmc/windowing/android/windowing_android.a
 DIRECTORY_ARCHIVES += xbmc/android/activity/activity.a
+endif
+
+ifeq (@USE_OMXPLAYER@,1)
+OMXPLAYER_ARCHIVES = xbmc/cores/omxplayer/OMXPlayer.a
+DIRECTORY_ARCHIVES += $(OMXPLAYER_ARCHIVES)
 endif
 
 ifeq (@USE_AMLPLAYER@,1)
@@ -409,6 +414,8 @@ endif
 
 OBJSXBMC:=$(filter-out $(DYNOBJSXBMC), $(OBJSXBMC))
 
+LIBS += @PYTHON_LDFLAGS@
+
 libxbmc.so: $(OBJSXBMC) $(DYNOBJSXBMC) $(NWAOBJSXBMC)
 ifeq ($(findstring osx,@ARCH@), osx)
 	$(SILENT_LD) $(CXX) $(LDFLAGS) -bundle -o $@ -Wl,-all_load,-ObjC $(DYNOBJSXBMC) $(NWAOBJSXBMC) $(OBJSXBMC) $(LIBS)
@@ -584,3 +591,10 @@ clean-externals: clean-codecs clean-eventclients clean-xbmctex clean-libs \
 
 check:
 	for d in $(CHECK_DIRS); do if test -f $$d/Makefile; then $(MAKE) -C $$d $@; fi; done
+
+	
+install:
+	(cd $(DESTDIR)$(libdir)/xbmc/addons/library.xbmc.addon; rm -f libXBMC_addon-arm-linux.so;mv libXBMC_addon-arm.so libXBMC_addon-arm-linux.so)
+	(cd $(DESTDIR)$(libdir)/xbmc/addons/library.xbmc.pvr; rm -f libXBMC_pvr-arm-linux.so;mv libXBMC_pvr-arm.so libXBMC_pvr-arm-linux.so)
+	(cd $(DESTDIR)$(libdir)/xbmc/addons/library.xbmc.gui; rm -f libXBMC_gui-arm-linux.so;mv libXBMC_gui-arm.so libXBMC_gui-arm-linux.so)
+	

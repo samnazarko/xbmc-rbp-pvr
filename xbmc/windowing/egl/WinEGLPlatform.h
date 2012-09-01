@@ -20,20 +20,18 @@
  *
  */
 
-#ifdef HAS_EGL
-
 #include "system.h"
 
-#if   defined(TARGET_ANDROID)
-  #include "xbmc/windowing/egl/WinEGLPlatformAndroid.h"
-  class CWinEGLPlatformAndroid;
-  #define CWinEGLPlatform CWinEGLPlatformAndroid
+#ifdef HAS_EGL
 
+#if   defined(TARGET_RASPBERRY_PI)
+  #include "xbmc/windowing/egl/WinEGLPlatformRaspberryPI.h"
+  class CWinEGLPlatformRaspberryPI;
+  #define CWinEGLPlatform CWinEGLPlatformRaspberryPI
 #else
   #include "xbmc/windowing/egl/WinEGLPlatformGeneric.h"
   class CWinEGLPlatformGeneric;
   #define CWinEGLPlatform CWinEGLPlatformGeneric
-
 #endif
 
 #endif
